@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# hvaclapro.com — Phase 1
 
-## Getting Started
+HVAC lead-generation site for Los Angeles. Next.js 16 (App Router) + Tailwind v4 + MDX content.
 
-First, run the development server:
+## Run locally
 
 ```bash
+cp .env.local.example .env.local
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Add a new MDX page
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Create `content/<category>/<slug>.mdx` (category: `problems`, `brands`, `cost`, `services`, `locations`, `blog`).
+2. Required frontmatter — see `lib/content/frontmatterSchema.ts`. Build fails on invalid frontmatter.
+3. Routes auto-generated via `generateStaticParams`; sitemap auto-updated on next build.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Update site info
 
-## Learn More
+All site-wide data lives in `lib/seo/constants.ts`. Override with env vars (see `.env.local.example`).
 
-To learn more about Next.js, take a look at the following resources:
+## Deploy to Vercel
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+vercel link
+vercel env add NEXT_PUBLIC_PHONE production
+vercel --prod
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Phase 2 checklist
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [ ] Contact form submission (Telegram webhook) — see TODO in `app/contact/page.tsx`
+- [ ] Google Analytics GA4
+- [ ] Google Search Console verification
+- [ ] Real review data
+- [ ] AggregateRating schema (only after real Google reviews exist)
+- [ ] Replace placeholder MDX bodies with expert copy
+- [ ] Replace placeholder reviews in `components/sections/ReviewsBlock.tsx`
