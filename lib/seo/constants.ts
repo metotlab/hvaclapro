@@ -1,8 +1,8 @@
 export const SITE = {
   name: "HVAC LA Pro",
   url: "https://hvaclapro.com",
-  phone: process.env.NEXT_PUBLIC_PHONE ?? "(323) 000-0000",
-  phoneRaw: process.env.NEXT_PUBLIC_PHONE_RAW ?? "3230000000",
+  phone: process.env.NEXT_PUBLIC_PHONE ?? "(213) 444-4051",
+  phoneRaw: process.env.NEXT_PUBLIC_PHONE_RAW ?? "2134444051",
   email: process.env.NEXT_PUBLIC_EMAIL ?? "info@hvaclapro.com",
   address: {
     streetAddress: process.env.NEXT_PUBLIC_STREET ?? "0000 Sunset Blvd",
