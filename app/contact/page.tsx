@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Phone, Mail, Clock, MapPin, CheckCircle2 } from "lucide-react";
+import Script from "next/script";
 import { SITE } from "@/lib/seo/constants";
-import { ContactForm } from "@/components/forms/ContactForm";
 import { GoogleMapEmbed } from "@/components/sections/GoogleMapEmbed";
 
 export const metadata = {
@@ -134,13 +134,13 @@ export default function Contact() {
         </div>
       </div>
 
-      {/* Contact form */}
+      {/* Booking widget */}
       <div className="max-w-2xl">
-        <h2 className="text-primary mb-2">Send a Message</h2>
+        <h2 className="text-primary mb-2">Book Online</h2>
         <p className="text-muted text-sm mb-6">
-          Describe what&apos;s going on. We respond same day during business hours. For faster service, call directly.
+          Schedule a service call online. For faster response, call directly.
         </p>
-        <ContactForm />
+        <Script src="https://nexfield.pro/crm/widget.js?u=205" strategy="lazyOnload" />
       </div>
 
     </div>
