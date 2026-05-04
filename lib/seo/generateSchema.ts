@@ -70,16 +70,30 @@ export function faqSchema(fm: Frontmatter) {
   };
 }
 
+function toIsoDate(value: string): string {
+  // Accept "YYYY-MM-DD" or full ISO; always output ISO 8601 with timezone (UTC).
+  const d = /^\d{4}-\d{2}-\d{2}$/.test(value) ? new Date(`${value}T00:00:00Z`) : new Date(value);
+  return Number.isNaN(d.getTime()) ? new Date().toISOString() : d.toISOString();
+}
+
 export function articleSchema(fm: Frontmatter, urlPath: string) {
+  const published = toIsoDate(fm.lastUpdated);
+  const image = `${SITE.url}${fm.heroImage ?? SITE.ogImage}`;
   return {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: fm.h1,
     description: fm.description,
-    datePublished: fm.lastUpdated,
-    dateModified: fm.lastUpdated,
+    image: [image],
+    datePublished: published,
+    dateModified: published,
     author: { "@type": "Organization", name: SITE.name, url: SITE.url },
-    publisher: { "@type": "Organization", name: SITE.name, url: SITE.url },
+    publisher: {
+      "@type": "Organization",
+      name: SITE.name,
+      url: SITE.url,
+      logo: { "@type": "ImageObject", url: `${SITE.url}${SITE.ogImage}` },
+    },
     mainEntityOfPage: `${SITE.url}${urlPath}`,
   };
 }
