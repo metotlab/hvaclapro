@@ -3,7 +3,7 @@ import { Breadcrumbs, type Crumb } from "@/components/ui/Breadcrumbs";
 import { FAQ } from "@/components/sections/FAQ";
 import { CTA } from "@/components/sections/CTA";
 import { JsonLd } from "@/components/JsonLd";
-import { breadcrumbSchema, faqSchema, articleSchema } from "@/lib/seo/generateSchema";
+import { breadcrumbSchema, faqSchema, articleSchema, productSchema } from "@/lib/seo/generateSchema";
 import { PriceBox, RelatedPages, HeroImage, InlinePhoneCTA } from "./shared";
 
 export function CostPage({
@@ -21,6 +21,7 @@ export function CostPage({
     <article>
       <JsonLd data={breadcrumbSchema(crumbs)} />
       <JsonLd data={articleSchema(fm, urlPath)} />
+      <JsonLd data={productSchema(fm, urlPath)} />
       <JsonLd data={faqSchema(fm)} />
 
       <div className="max-w-3xl mx-auto px-4 py-8">

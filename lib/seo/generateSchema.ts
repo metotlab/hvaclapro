@@ -1,4 +1,4 @@
-import { SITE } from "./constants";
+import { SITE, PRODUCT_RATING, PRODUCT_REVIEWS } from "./constants";
 import type { Frontmatter } from "@/lib/content/frontmatterSchema";
 
 type Crumb = { name: string; url: string };
@@ -81,6 +81,56 @@ export function articleSchema(fm: Frontmatter, urlPath: string) {
     author: { "@type": "Organization", name: SITE.name, url: SITE.url },
     publisher: { "@type": "Organization", name: SITE.name, url: SITE.url },
     mainEntityOfPage: `${SITE.url}${urlPath}`,
+  };
+}
+
+// Product schema with aggregateRating + Review[] — required pattern for
+// Google review-stars in SERP. Use on service / brand / problem / cost / location pages.
+export function productSchema(fm: Frontmatter, urlPath: string) {
+  const productId = `${SITE.url}${urlPath}#product`;
+  const offers =
+    fm.priceRange && fm.priceRange.min > 0
+      ? {
+          "@type": "AggregateOffer",
+          priceCurrency: "USD",
+          lowPrice: String(fm.priceRange.min),
+          highPrice: String(fm.priceRange.max),
+          offerCount: String(PRODUCT_REVIEWS.length),
+          availability: "https://schema.org/InStock",
+        }
+      : undefined;
+
+  const product = {
+    "@type": "Product",
+    "@id": productId,
+    name: fm.h1,
+    description: fm.description,
+    brand: { "@type": "Brand", name: SITE.name },
+    image: `${SITE.url}${fm.heroImage ?? SITE.ogImage}`,
+    url: `${SITE.url}${urlPath}`,
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: String(PRODUCT_RATING.ratingValue),
+      reviewCount: String(PRODUCT_RATING.reviewCount),
+      bestRating: String(PRODUCT_RATING.bestRating),
+      worstRating: String(PRODUCT_RATING.worstRating),
+    },
+    ...(offers ? { offers } : {}),
+  };
+
+  const reviews = PRODUCT_REVIEWS.map((r, i) => ({
+    "@type": "Review",
+    "@id": `${productId}-review-${i}`,
+    reviewBody: r.body,
+    reviewRating: { "@type": "Rating", ratingValue: String(r.rating), bestRating: "5" },
+    author: { "@type": "Person", name: r.author },
+    datePublished: r.date,
+    itemReviewed: { "@id": productId },
+  }));
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [product, ...reviews],
   };
 }
 

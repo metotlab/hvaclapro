@@ -3,7 +3,7 @@ import { Breadcrumbs, type Crumb } from "@/components/ui/Breadcrumbs";
 import { FAQ } from "@/components/sections/FAQ";
 import { CTA } from "@/components/sections/CTA";
 import { JsonLd } from "@/components/JsonLd";
-import { breadcrumbSchema, faqSchema, serviceSchema } from "@/lib/seo/generateSchema";
+import { breadcrumbSchema, faqSchema, serviceSchema, productSchema } from "@/lib/seo/generateSchema";
 import { ServiceAreasLinks } from "@/components/sections/ServiceAreasLinks";
 import { RelatedPages, HeroImage, InlinePhoneCTA } from "./shared";
 
@@ -22,6 +22,7 @@ export function ServicePage({
     <article>
       <JsonLd data={breadcrumbSchema(crumbs)} />
       <JsonLd data={serviceSchema(fm, urlPath)} />
+      <JsonLd data={productSchema(fm, urlPath)} />
       <JsonLd data={faqSchema(fm)} />
 
       <div className="max-w-3xl mx-auto px-4 py-8">
